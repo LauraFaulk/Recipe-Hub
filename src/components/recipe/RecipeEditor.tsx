@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 interface EditableIngredient {
   id: string;
@@ -13,45 +13,22 @@ interface EditableStep {
   text: string;
 }
 
-interface RecipeSource {
-  extractionConfidence?: number;
-}
-
 interface EditableRecipe {
   id: string;
   title: string;
   ingredients: EditableIngredient[];
   steps: EditableStep[];
   metadata: Record<string, unknown>;
-  source: RecipeSource & Record<string, unknown>;
+  source: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
 }
 
 export function RecipeEditor({ recipeId }: { recipeId: string }) {
   const [recipe, setRecipe] = useState<EditableRecipe | null>(null);
+export function RecipeEditor({ recipeId }: { recipeId: string }) {
+  const [recipeJson, setRecipeJson] = useState('');
   const [status, setStatus] = useState('Idle');
-
-  const warnings = useMemo(() => {
-    if (!recipe) return [] as string[];
-
-    const items: string[] = [];
-    const confidence = recipe.source.extractionConfidence;
-    if (typeof confidence === 'number' && confidence < 0.7) {
-      items.push('Low extraction confidence detected. Double-check ingredients and steps.');
-    }
-    if (!recipe.title.trim()) {
-      items.push('Recipe title is empty. Add a clear title before saving.');
-    }
-    if (recipe.ingredients.some((ingredient) => !ingredient.name.trim())) {
-      items.push('One or more ingredients are empty. Fill in ingredient names.');
-    }
-    if (recipe.steps.some((step) => !step.text.trim())) {
-      items.push('One or more steps are empty. Add instruction text for each step.');
-    }
-
-    return items;
-  }, [recipe]);
 
   async function loadRecipe() {
     setStatus('Loading...');
@@ -121,6 +98,9 @@ export function RecipeEditor({ recipeId }: { recipeId: string }) {
     const payload = (await response.json()) as { recipe: EditableRecipe };
     setRecipe(payload.recipe);
     setStatus('Saved.');
+    const payload = await response.json();
+    setRecipeJson(JSON.stringify(payload.recipe, null, 2));
+    setStatus('Loaded recipe JSON.');
   }
 
   return (
@@ -132,17 +112,6 @@ export function RecipeEditor({ recipeId }: { recipeId: string }) {
 
       {recipe ? (
         <article className="recipe-card">
-          {warnings.length > 0 ? (
-            <aside className="warning-box" role="alert">
-              <strong>Review Warnings</strong>
-              <ul>
-                {warnings.map((warning) => (
-                  <li key={warning}>{warning}</li>
-                ))}
-              </ul>
-            </aside>
-          ) : null}
-
           <label className="stack">
             <span>Title</span>
             <input value={recipe.title} onChange={(event) => updateTitle(event.target.value)} />
@@ -179,16 +148,12 @@ export function RecipeEditor({ recipeId }: { recipeId: string }) {
             </button>
           </div>
 
-          <div className="actions">
-            <button className="button" type="button" onClick={saveRecipe}>
-              Save Recipe
-            </button>
-            <a className="button secondary" href={`/recipes/${recipeId}/card`}>
-              View Recipe Card
-            </a>
-          </div>
+          <button className="button" type="button" onClick={saveRecipe}>
+            Save Recipe
+          </button>
         </article>
       ) : null}
+      <textarea value={recipeJson} readOnly rows={20} className="codebox" />
     </section>
   );
 }
