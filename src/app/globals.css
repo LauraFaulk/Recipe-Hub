@@ -1,0 +1,64 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f8f8fb;
+  color: #14141a;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.button {
+  background: #2d5bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.button.secondary {
+  background: #5f657a;
+}
+
+.codebox {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+
+input,
+textarea {
+  border: 1px solid #d6b7c1;
+  border-radius: 8px;
+  padding: 0.6rem;
+  font: inherit;
+}
+
+.recipe-card {
+  display: grid;
+  gap: 1rem;
+  background: #e8c8d0;
+  border: 1px solid #d8aeb9;
+  border-radius: 14px;
+  padding: 1rem;
+}
