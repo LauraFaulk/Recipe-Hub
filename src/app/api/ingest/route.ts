@@ -3,6 +3,7 @@ import { IngestRequestSchema, IngestResponseSchema } from '../../../lib/validati
 import { getMedia } from '../../../lib/storage/media-store';
 import { extractRawTextFromMedia } from '../../../lib/ocr/extract-raw-text';
 import { parseRecipeFromText } from '../../../lib/parser/parse-recipe';
+import { putRecipe } from '../../../lib/storage/recipe-store';
 
 export async function POST(request: Request): Promise<Response> {
   const parsedBody = IngestRequestSchema.safeParse(await request.json());
@@ -19,6 +20,8 @@ export async function POST(request: Request): Promise<Response> {
     extractRawText: extractRawTextFromMedia,
     parseRecipe: parseRecipeFromText,
   });
+
+  putRecipe(result.recipe);
 
   const response = IngestResponseSchema.parse({
     recipeId: result.recipe.id,
