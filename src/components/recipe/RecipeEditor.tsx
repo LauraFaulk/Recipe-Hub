@@ -26,6 +26,8 @@ interface EditableRecipe {
 
 export function RecipeEditor({ recipeId }: { recipeId: string }) {
   const [recipe, setRecipe] = useState<EditableRecipe | null>(null);
+export function RecipeEditor({ recipeId }: { recipeId: string }) {
+  const [recipeJson, setRecipeJson] = useState('');
   const [status, setStatus] = useState('Idle');
 
   async function loadRecipe() {
@@ -96,6 +98,9 @@ export function RecipeEditor({ recipeId }: { recipeId: string }) {
     const payload = (await response.json()) as { recipe: EditableRecipe };
     setRecipe(payload.recipe);
     setStatus('Saved.');
+    const payload = await response.json();
+    setRecipeJson(JSON.stringify(payload.recipe, null, 2));
+    setStatus('Loaded recipe JSON.');
   }
 
   return (
@@ -148,6 +153,7 @@ export function RecipeEditor({ recipeId }: { recipeId: string }) {
           </button>
         </article>
       ) : null}
+      <textarea value={recipeJson} readOnly rows={20} className="codebox" />
     </section>
   );
 }
