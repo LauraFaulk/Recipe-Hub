@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "test": "node --test --experimental-strip-types tests/unit/*.test.ts"
+    "test": "node --test --experimental-strip-types tests/unit/*.test.ts",
+    "dev": "next dev"
   }
 }
