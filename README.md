@@ -9,6 +9,23 @@ npm install
 npm run dev
 ```
 
+## Environment
+
+```bash
+cp .env.example .env.local
+```
+
+Adjust values in `.env.local` as needed for your local environment.
+
+## Other scripts
+
+```bash
+npm run build
+npm run start
+npm run lint
+npm test
+```
+
 Open:
 - `/` home
 - `/upload` upload + ingest flow
