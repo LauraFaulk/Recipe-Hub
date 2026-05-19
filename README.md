@@ -9,6 +9,15 @@ npm install
 npm run dev
 ```
 
+## Other scripts
+
+```bash
+npm run build
+npm run start
+npm run lint
+npm test
+```
+
 Open:
 - `/` home
 - `/upload` upload + ingest flow
