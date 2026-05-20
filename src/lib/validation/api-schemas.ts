@@ -4,7 +4,9 @@ import { RecipeSchema } from './recipe-schema';
 export const UploadResponseSchema = z.object({
   mediaId: z.string().min(1),
   sourceType: z.enum(['image', 'video', 'text']),
-  storageUrl: z.string().url(),
+  storageUrl: z.string().min(1).refine((value) => value.startsWith('memory://') || value.startsWith('http://') || value.startsWith('https://'), {
+    message: 'storageUrl must use memory://, http://, or https://',
+  }),
   status: z.literal('uploaded'),
 });
 
