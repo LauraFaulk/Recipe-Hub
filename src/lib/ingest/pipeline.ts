@@ -3,21 +3,22 @@ import { safeValidateRecipe } from '../validation/recipe-schema';
 
 export interface PipelineDependencies {
   extractRawText: (mediaId: string) => Promise<string>;
-  parseRecipe: (rawText: string, mediaId: string) => Promise<unknown>;
+  parseRecipe: (rawText: string, mediaId: string, sourceType: 'image' | 'video' | 'text') => Promise<unknown>;
 }
 
 export async function runIngestionPipeline(
   mediaId: string,
+  sourceType: 'image' | 'video' | 'text',
   deps: PipelineDependencies,
 ): Promise<RecipeExtractionResult> {
   const rawText = await deps.extractRawText(mediaId);
-  const parsed = await deps.parseRecipe(rawText, mediaId);
+  const parsed = await deps.parseRecipe(rawText, mediaId, sourceType);
 
   const validated = safeValidateRecipe(parsed);
   if (!validated.success) {
     const missingFields = validated.error.issues.map((issue) => issue.path.join('.'));
     return {
-      recipe: buildFallbackRecipe(mediaId, rawText),
+      recipe: buildFallbackRecipe(mediaId, sourceType, rawText),
       warnings: ['Recipe parse failed schema validation.'],
       missingFields,
     };
@@ -30,7 +31,7 @@ export async function runIngestionPipeline(
   };
 }
 
-function buildFallbackRecipe(mediaId: string, rawText: string): Recipe {
+function buildFallbackRecipe(mediaId: string, sourceType: 'image' | 'video' | 'text', rawText: string): Recipe {
   const now = new Date().toISOString();
   return {
     id: `draft_${mediaId}`,
@@ -51,7 +52,7 @@ function buildFallbackRecipe(mediaId: string, rawText: string): Recipe {
     ],
     metadata: {},
     source: {
-      sourceType: 'image',
+      sourceType,
       rawExtractedText: rawText,
       extractionConfidence: 0,
       parserVersion: 'v0-fallback',
