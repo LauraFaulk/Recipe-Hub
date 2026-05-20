@@ -10,9 +10,9 @@ Ship a vertical slice that supports:
 ---
 
 ## Phase 0 — Project setup
-- [x] Initialize Next.js app (`app` router, TypeScript, Tailwind).
-- [x] Add linting/formatting (ESLint + Prettier).
-- [x] Add env management with `.env.example`.
+- [ ] Initialize Next.js app (`app` router, TypeScript, Tailwind).
+- [ ] Add linting/formatting (ESLint + Prettier).
+- [ ] Add env management with `.env.example`.
 - [x] Set up package scripts for `dev`, `build`, `test`, and `lint`.
 
 Deliverable: clean booting web app.

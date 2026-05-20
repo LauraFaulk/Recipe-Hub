@@ -11,6 +11,9 @@ test('runIngestionPipeline returns validated recipe when parser output is valid'
     return;
   }
 
+import { runIngestionPipeline } from '../../src/lib/ingest/pipeline';
+
+test('runIngestionPipeline returns validated recipe when parser output is valid', async () => {
   const now = new Date().toISOString();
   const result = await runIngestionPipeline('med_1', 'text', {
     extractRawText: async () => 'Mix ingredients and bake',

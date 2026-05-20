@@ -1,5 +1,6 @@
+import Link from 'next/link';
+
 import { RecipeCardView } from '../../../../components/cards/RecipeCardView';
-import { PrintCardActions } from '../../../../components/cards/PrintCardActions';
 import { getRecipe } from '../../../../lib/storage/recipe-store';
 
 export default async function RecipeCardPage({ params }: { params: Promise<{ id: string }> }) {
@@ -17,7 +18,12 @@ export default async function RecipeCardPage({ params }: { params: Promise<{ id:
 
   return (
     <main className="container stack">
-      <PrintCardActions recipeId={id} />
+      <div className="actions">
+        <Link href={`/recipes/${id}/edit`} className="button secondary">
+          Back to Editor
+        </Link>
+        <span className="button" role="note">Use browser print for hard copy</span>
+      </div>
       <RecipeCardView recipe={recipe} />
     </main>
   );
