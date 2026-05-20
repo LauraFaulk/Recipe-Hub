@@ -5,53 +5,8 @@ import { useState } from 'react';
 export function UploadForm() {
   const [status, setStatus] = useState<string>('Idle');
   const [mediaId, setMediaId] = useState<string>('');
-  const [recipeId, setRecipeId] = useState<string>('');
   const [ingestWarnings, setIngestWarnings] = useState<string[]>([]);
   const [missingFields, setMissingFields] = useState<string[]>([]);
-  const [isIngesting, setIsIngesting] = useState(false);
-
-  const maxUploadBytes = 10 * 1024 * 1024;
-  const allowedTypes = new Set(['image/png', 'image/jpeg', 'image/webp', 'video/mp4', 'text/plain']);
-
-
-  async function ingestMedia(targetMediaId: string) {
-    setIsIngesting(true);
-    setStatus('Ingesting...');
-
-    const ingestResponse = await fetch('/api/ingest', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ mediaId: targetMediaId }),
-    });
-
-    setIsIngesting(false);
-
-    if (!ingestResponse.ok) {
-      setStatus('Ingestion failed. You can retry ingestion below.');
-      return;
-    }
-
-    const ingestPayload = (await ingestResponse.json()) as {
-      recipeId: string;
-      warnings: string[];
-      missingFields: string[];
-      confidence: number;
-      status: 'ready_for_review' | 'failed';
-    };
-
-    setRecipeId(ingestPayload.recipeId);
-    setIngestWarnings(ingestPayload.warnings ?? []);
-    setMissingFields(ingestPayload.missingFields ?? []);
-
-    if (ingestPayload.status === 'failed') {
-      setStatus(
-        `Ingestion completed with warnings (confidence: ${ingestPayload.confidence.toFixed(2)}). Review recipe: ${ingestPayload.recipeId}`,
-      );
-      return;
-    }
-
-    setStatus(`Done (confidence: ${ingestPayload.confidence.toFixed(2)}). Recipe ready: ${ingestPayload.recipeId}`);
-  }
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -64,17 +19,6 @@ export function UploadForm() {
       return;
     }
 
-    if (!allowedTypes.has(file.type)) {
-      setStatus('Unsupported file type. Use PNG/JPEG/WEBP, MP4, or text/plain.');
-      return;
-    }
-
-    if (file.size > maxUploadBytes) {
-      setStatus('File is too large. Maximum upload size is 10MB.');
-      return;
-    }
-
-    setRecipeId('');
     setIngestWarnings([]);
     setMissingFields([]);
     setStatus('Uploading...');
@@ -90,7 +34,37 @@ export function UploadForm() {
     const uploadPayload = (await uploadResponse.json()) as { mediaId: string };
     setMediaId(uploadPayload.mediaId);
 
-    await ingestMedia(uploadPayload.mediaId);
+    setStatus('Ingesting...');
+    const ingestResponse = await fetch('/api/ingest', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ mediaId: uploadPayload.mediaId }),
+    });
+
+    if (!ingestResponse.ok) {
+      setStatus('Ingestion failed.');
+      return;
+    }
+
+    const ingestPayload = (await ingestResponse.json()) as {
+      recipeId: string;
+      warnings: string[];
+      missingFields: string[];
+      confidence: number;
+      status: 'ready_for_review' | 'failed';
+    };
+
+    setIngestWarnings(ingestPayload.warnings ?? []);
+    setMissingFields(ingestPayload.missingFields ?? []);
+
+    if (ingestPayload.status === 'failed') {
+      setStatus(
+        `Ingestion completed with warnings (confidence: ${ingestPayload.confidence.toFixed(2)}). Review recipe: ${ingestPayload.recipeId}` ,
+      );
+      return;
+    }
+
+    setStatus(`Done (confidence: ${ingestPayload.confidence.toFixed(2)}). Recipe ready: ${ingestPayload.recipeId}`);
   }
 
   return (
@@ -101,20 +75,6 @@ export function UploadForm() {
       </button>
       <p>{status}</p>
       {mediaId ? <p>Last media ID: {mediaId}</p> : null}
-      {mediaId ? (
-        <button
-          type="button"
-          className="button secondary"
-          disabled={isIngesting}
-          onClick={() => {
-            setIngestWarnings([]);
-            setMissingFields([]);
-            void ingestMedia(mediaId);
-          }}
-        >
-          {isIngesting ? 'Retrying...' : 'Retry Ingestion'}
-        </button>
-      ) : null}
       {ingestWarnings.length > 0 ? (
         <div className="warning-box" role="alert">
           <strong>Ingestion warnings</strong>
@@ -123,16 +83,6 @@ export function UploadForm() {
               <li key={warning}>{warning}</li>
             ))}
           </ul>
-        </div>
-      ) : null}
-      {recipeId ? (
-        <div className="actions">
-          <a className="button" href={`/recipes/${recipeId}/edit`}>
-            Open Editor
-          </a>
-          <a className="button secondary" href={`/recipes/${recipeId}/card`}>
-            Open Card View
-          </a>
         </div>
       ) : null}
       {missingFields.length > 0 ? (
