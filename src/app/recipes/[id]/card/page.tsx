@@ -3,8 +3,19 @@ import Link from 'next/link';
 import { RecipeCardView } from '../../../../components/cards/RecipeCardView';
 import { getRecipe } from '../../../../lib/storage/recipe-store';
 
-export default async function RecipeCardPage({ params }: { params: Promise<{ id: string }> }) {
+const ALLOWED_VARIANTS = new Set(['minimal', 'cozy', 'pro'] as const);
+
+export default async function RecipeCardPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ variant?: string }>;
+}) {
   const { id } = await params;
+  const { variant } = await searchParams;
+  const selectedVariant = variant && ALLOWED_VARIANTS.has(variant as 'minimal' | 'cozy' | 'pro') ? variant : 'minimal';
+
   const recipe = getRecipe(id);
 
   if (!recipe) {
