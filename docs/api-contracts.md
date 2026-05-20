@@ -5,7 +5,8 @@ Uploads a media file and returns a media record.
 
 ### Request
 - `multipart/form-data`
-  - `file`: image file (`image/png`, `image/jpeg`, `image/webp`)
+  - `file`: supported types: `image/png`, `image/jpeg`, `image/webp`, `video/mp4`, `text/plain`
+  - max size: `10MB`
 
 ### Response
 ```json
@@ -33,6 +34,7 @@ Triggers extraction and structured parsing for a previously uploaded file.
   "recipeId": "rcp_123",
   "confidence": 0.87,
   "warnings": ["Could not determine exact amount for 'salt'"],
+  "missingFields": ["ingredients.0.amount"],
   "status": "ready_for_review"
 }
 ```
@@ -48,3 +50,37 @@ Updates recipe after user edits.
 
 ### Response
 Updated `Recipe` object.
+
+
+## GET `/api/recipes/:id/export`
+Exports a recipe as a downloadable HTML file.
+
+### Response
+- `200 text/html` attachment (`<recipe-id>.html`)
+- `404` if recipe does not exist
+
+## GET `/api/telemetry/ingest`
+Returns ingestion telemetry summary and recent events.
+
+### Response
+```json
+{
+  "summary": {
+    "total": 10,
+    "failed": 2,
+    "ready": 8,
+    "avgConfidence": 0.74
+  },
+  "events": [
+    {
+      "mediaId": "med_123",
+      "recipeId": "rcp_123",
+      "status": "ready_for_review",
+      "warningCount": 0,
+      "missingFieldCount": 0,
+      "confidence": 0.9,
+      "createdAt": "2026-05-20T10:00:00.000Z"
+    }
+  ]
+}
+```
