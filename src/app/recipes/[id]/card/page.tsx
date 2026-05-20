@@ -1,5 +1,6 @@
+import Link from 'next/link';
+
 import { RecipeCardView } from '../../../../components/cards/RecipeCardView';
-import { PrintCardActions } from '../../../../components/cards/PrintCardActions';
 import { getRecipe } from '../../../../lib/storage/recipe-store';
 
 const ALLOWED_VARIANTS = new Set(['minimal', 'cozy', 'pro'] as const);
@@ -28,19 +29,13 @@ export default async function RecipeCardPage({
 
   return (
     <main className="container stack">
-      <PrintCardActions recipeId={id} />
       <div className="actions">
-        <a className={`button ${selectedVariant === 'minimal' ? '' : 'secondary'}`} href={`/recipes/${id}/card?variant=minimal`}>
-          Minimal
-        </a>
-        <a className={`button ${selectedVariant === 'cozy' ? '' : 'secondary'}`} href={`/recipes/${id}/card?variant=cozy`}>
-          Cozy
-        </a>
-        <a className={`button ${selectedVariant === 'pro' ? '' : 'secondary'}`} href={`/recipes/${id}/card?variant=pro`}>
-          Pro
-        </a>
+        <Link href={`/recipes/${id}/edit`} className="button secondary">
+          Back to Editor
+        </Link>
+        <span className="button" role="note">Use browser print for hard copy</span>
       </div>
-      <RecipeCardView recipe={recipe} variant={selectedVariant as 'minimal' | 'cozy' | 'pro'} />
+      <RecipeCardView recipe={recipe} />
     </main>
   );
 }
