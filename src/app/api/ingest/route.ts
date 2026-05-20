@@ -16,7 +16,7 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json({ code: 'not_found', message: 'media not found' }, { status: 404 });
   }
 
-  const result = await runIngestionPipeline(parsedBody.data.mediaId, {
+  const result = await runIngestionPipeline(parsedBody.data.mediaId, media.sourceType, {
     extractRawText: extractRawTextFromMedia,
     parseRecipe: parseRecipeFromText,
   });
@@ -27,6 +27,7 @@ export async function POST(request: Request): Promise<Response> {
     recipeId: result.recipe.id,
     confidence: result.recipe.source.extractionConfidence,
     warnings: result.warnings,
+    missingFields: result.missingFields,
     status: result.warnings.length ? 'failed' : 'ready_for_review',
   });
 
