@@ -22,6 +22,9 @@ export default function HomePage() {
         <Link href="/telemetry" className="button secondary">
           View Telemetry
         </Link>
+        <Link href="/telemetry" className="button secondary">
+          View Telemetry
+        </Link>
       </div>
     </main>
   );

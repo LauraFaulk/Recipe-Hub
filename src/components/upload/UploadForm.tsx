@@ -70,8 +70,8 @@ export function UploadForm() {
   return (
     <form onSubmit={onSubmit} className="stack">
       <input type="file" name="file" accept="image/*,video/*,text/plain" />
-      <button type="submit" className="button">
-        Upload and Ingest
+      <button type="submit" className="button" disabled={isIngesting}>
+        {isIngesting ? 'Uploading / Ingesting…' : 'Upload and Ingest'}
       </button>
       <p>{status}</p>
       {mediaId ? <p>Last media ID: {mediaId}</p> : null}
