@@ -19,8 +19,8 @@ export async function runIngestionPipeline(
     const missingFields = validated.error.issues.map((issue) => issue.path.join('.'));
     const warnings = ['Recipe parse failed schema validation.'];
     return {
-      recipe: buildFallbackRecipe(mediaId, sourceType, rawText, warnings, missingFields),
-      warnings,
+      recipe: buildFallbackRecipe(mediaId, sourceType, rawText),
+      warnings: ['Recipe parse failed schema validation.'],
       missingFields,
     };
   }
@@ -39,13 +39,7 @@ export async function runIngestionPipeline(
   };
 }
 
-function buildFallbackRecipe(
-  mediaId: string,
-  sourceType: 'image' | 'video' | 'text',
-  rawText: string,
-  warnings: string[],
-  missingFields: string[],
-): Recipe {
+function buildFallbackRecipe(mediaId: string, sourceType: 'image' | 'video' | 'text', rawText: string): Recipe {
   const now = new Date().toISOString();
   return {
     id: `draft_${mediaId}`,
