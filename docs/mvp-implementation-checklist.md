@@ -10,9 +10,9 @@ Ship a vertical slice that supports:
 ---
 
 ## Phase 0 — Project setup
-- [x] Initialize Next.js app (`app` router, TypeScript, Tailwind).
-- [x] Add linting/formatting (ESLint + Prettier).
-- [x] Add env management with `.env.example`.
+- [ ] Initialize Next.js app (`app` router, TypeScript, Tailwind).
+- [ ] Add linting/formatting (ESLint + Prettier).
+- [ ] Add env management with `.env.example`.
 - [x] Set up package scripts for `dev`, `build`, `test`, and `lint`.
 
 Deliverable: clean booting web app.
@@ -52,9 +52,9 @@ Deliverable: user can quickly fix imperfect AI extraction.
 
 ## Phase 5 — Recipe card rendering
 - [x] Build first template (`MinimalCard`).
-- [x] Add style variants selector (Minimal/Cozy/Pro placeholders).
+- [ ] Add style variants selector (Minimal/Cozy/Pro placeholders).
 - [x] Add print-friendly “cook mode” view.
-- [x] Add export endpoint (PNG or PDF).
+- [ ] Add export endpoint (PNG or PDF).
 
 Deliverable: polished, usable recipe card for cooking.
 
