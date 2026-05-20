@@ -5,7 +5,8 @@ Uploads a media file and returns a media record.
 
 ### Request
 - `multipart/form-data`
-  - `file`: image file (`image/png`, `image/jpeg`, `image/webp`)
+  - `file`: supported types: `image/png`, `image/jpeg`, `image/webp`, `video/mp4`, `text/plain`
+  - max size: `10MB`
 
 ### Response
 ```json
