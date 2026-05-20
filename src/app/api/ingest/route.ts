@@ -4,6 +4,7 @@ import { getMedia } from '../../../lib/storage/media-store';
 import { extractRawTextFromMedia } from '../../../lib/ocr/extract-raw-text';
 import { parseRecipeFromText } from '../../../lib/parser/parse-recipe';
 import { putRecipe } from '../../../lib/storage/recipe-store';
+import { recordIngestEvent } from '../../../lib/storage/telemetry-store';
 
 export async function POST(request: Request): Promise<Response> {
   const parsedBody = IngestRequestSchema.safeParse(await request.json());
@@ -29,6 +30,16 @@ export async function POST(request: Request): Promise<Response> {
     warnings: result.warnings,
     missingFields: result.missingFields,
     status: result.warnings.length ? 'failed' : 'ready_for_review',
+  });
+
+  recordIngestEvent({
+    mediaId: parsedBody.data.mediaId,
+    recipeId: response.recipeId,
+    status: response.status,
+    warningCount: response.warnings.length,
+    missingFieldCount: response.missingFields.length,
+    confidence: response.confidence,
+    createdAt: new Date().toISOString(),
   });
 
   return Response.json(response, { status: 200 });
