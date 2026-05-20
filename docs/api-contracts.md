@@ -5,7 +5,8 @@ Uploads a media file and returns a media record.
 
 ### Request
 - `multipart/form-data`
-  - `file`: image file (`image/png`, `image/jpeg`, `image/webp`)
+  - `file`: supported types: `image/png`, `image/jpeg`, `image/webp`, `video/mp4`, `text/plain`
+  - max size: `10MB`
 
 ### Response
 ```json
@@ -33,6 +34,7 @@ Triggers extraction and structured parsing for a previously uploaded file.
   "recipeId": "rcp_123",
   "confidence": 0.87,
   "warnings": ["Could not determine exact amount for 'salt'"],
+  "missingFields": ["ingredients.0.amount"],
   "status": "ready_for_review"
 }
 ```
