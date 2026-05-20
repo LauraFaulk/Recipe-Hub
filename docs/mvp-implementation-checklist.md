@@ -10,50 +10,50 @@ Ship a vertical slice that supports:
 ---
 
 ## Phase 0 — Project setup
-- [ ] Initialize Next.js app (`app` router, TypeScript, Tailwind).
-- [ ] Add linting/formatting (ESLint + Prettier).
-- [ ] Add env management with `.env.example`.
-- [ ] Set up package scripts for `dev`, `build`, `test`, and `lint`.
+- [x] Initialize Next.js app (`app` router, TypeScript, Tailwind).
+- [x] Add linting/formatting (ESLint + Prettier).
+- [x] Add env management with `.env.example`.
+- [x] Set up package scripts for `dev`, `build`, `test`, and `lint`.
 
 Deliverable: clean booting web app.
 
 ## Phase 1 — Data contracts + validation
-- [ ] Add canonical `Recipe` interfaces in `src/types/recipe.ts`.
-- [ ] Add `zod` runtime schema validation in `src/lib/validation/recipe-schema.ts`.
-- [ ] Create API contract types for upload/ingest endpoints.
-- [ ] Add unit tests for valid/invalid recipe payloads.
+- [x] Add canonical `Recipe` interfaces in `src/types/recipe.ts`.
+- [x] Add `zod` runtime schema validation in `src/lib/validation/recipe-schema.ts`.
+- [x] Create API contract types for upload/ingest endpoints.
+- [x] Add unit tests for valid/invalid recipe payloads.
 
 Deliverable: strict data model used across frontend + backend.
 
 ## Phase 2 — Upload flow
-- [ ] Build upload UI (drag/drop + file picker).
-- [ ] Validate file type/size client-side.
-- [ ] Implement upload endpoint and object storage integration.
+- [x] Build upload UI (drag/drop + file picker).
+- [x] Validate file type/size client-side.
+- [x] Implement upload endpoint and object storage integration.
 - [ ] Persist uploaded media record in DB.
 
 Deliverable: image is uploaded and tracked with a media ID.
 
 ## Phase 3 — Ingestion pipeline (image-first)
-- [ ] Implement media-type detection and routing.
-- [ ] Extract raw text from uploaded screenshot (OCR or direct vision model).
-- [ ] Parse text into structured recipe JSON using LLM prompt.
-- [ ] Validate model output against `RecipeSchema`.
-- [ ] Save parse warnings + confidence score.
+- [x] Implement media-type detection and routing.
+- [x] Extract raw text from uploaded screenshot (OCR or direct vision model).
+- [x] Parse text into structured recipe JSON using LLM prompt.
+- [x] Validate model output against `RecipeSchema`.
+- [x] Save parse warnings + confidence score.
 
 Deliverable: `Recipe` object produced automatically from image.
 
 ## Phase 4 — Human-in-the-loop editor
-- [ ] Build recipe editor for title, ingredients, and steps.
-- [ ] Add reorder/edit/delete/add for instruction steps.
-- [ ] Add warnings UI for low-confidence extraction.
-- [ ] Save edited recipe back to DB.
+- [x] Build recipe editor for title, ingredients, and steps.
+- [x] Add reorder/edit/delete/add for instruction steps.
+- [x] Add warnings UI for low-confidence extraction.
+- [x] Save edited recipe back to DB.
 
 Deliverable: user can quickly fix imperfect AI extraction.
 
 ## Phase 5 — Recipe card rendering
-- [ ] Build first template (`MinimalCard`).
-- [ ] Add style variants selector (Minimal/Cozy/Pro placeholders).
-- [ ] Add print-friendly “cook mode” view.
+- [x] Build first template (`MinimalCard`).
+- [x] Add style variants selector (Minimal/Cozy/Pro placeholders).
+- [x] Add print-friendly “cook mode” view.
 - [ ] Add export endpoint (PNG or PDF).
 
 Deliverable: polished, usable recipe card for cooking.
@@ -62,7 +62,7 @@ Deliverable: polished, usable recipe card for cooking.
 - [ ] Add integration tests for upload → ingest → render flow.
 - [ ] Add fixture set with expected extraction JSON.
 - [ ] Add telemetry for extraction errors and schema failures.
-- [ ] Add retry and fallback messaging in UI.
+- [x] Add retry and fallback messaging in UI.
 
 Deliverable: stable MVP with measurable extraction quality.
 
