@@ -31,6 +31,30 @@ test('runIngestionPipeline returns validated recipe when parser output is valid'
 
   assert.equal(result.warnings.length, 0);
   assert.equal(result.recipe.title, 'Cake');
+  assert.deepEqual(result.recipe.source.parseWarnings, []);
+  assert.deepEqual(result.recipe.source.missingFields, []);
+});
+
+
+test('runIngestionPipeline preserves sourceType in fallback recipe', async (t) => {
+  let runIngestionPipeline: typeof import('../../src/lib/ingest/pipeline.ts').runIngestionPipeline;
+
+  try {
+    ({ runIngestionPipeline } = await import('../../src/lib/ingest/pipeline.ts'));
+  } catch {
+    t.skip('Skipping pipeline test because validation dependencies are unavailable in this environment.');
+    return;
+  }
+
+  const result = await runIngestionPipeline('med_2', 'video', {
+    extractRawText: async () => 'raw text',
+    parseRecipe: async () => ({ invalid: true }),
+  });
+
+  assert.equal(result.warnings.length > 0, true);
+  assert.equal(result.recipe.source.sourceType, 'video');
+  assert.equal((result.recipe.source.parseWarnings ?? []).length > 0, true);
+  assert.equal((result.recipe.source.missingFields ?? []).length > 0, true);
 });
 
 

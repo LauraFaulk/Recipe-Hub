@@ -34,11 +34,11 @@ Deliverable: strict data model used across frontend + backend.
 Deliverable: image is uploaded and tracked with a media ID.
 
 ## Phase 3 — Ingestion pipeline (image-first)
-- [ ] Implement media-type detection and routing.
-- [ ] Extract raw text from uploaded screenshot (OCR or direct vision model).
-- [ ] Parse text into structured recipe JSON using LLM prompt.
-- [ ] Validate model output against `RecipeSchema`.
-- [ ] Save parse warnings + confidence score.
+- [x] Implement media-type detection and routing.
+- [x] Extract raw text from uploaded screenshot (OCR or direct vision model).
+- [x] Parse text into structured recipe JSON using LLM prompt.
+- [x] Validate model output against `RecipeSchema`.
+- [x] Save parse warnings + confidence score.
 
 Deliverable: `Recipe` object produced automatically from image.
 
@@ -62,7 +62,7 @@ Deliverable: polished, usable recipe card for cooking.
 - [ ] Add integration tests for upload → ingest → render flow.
 - [ ] Add fixture set with expected extraction JSON.
 - [ ] Add telemetry for extraction errors and schema failures.
-- [ ] Add retry and fallback messaging in UI.
+- [x] Add retry and fallback messaging in UI.
 
 Deliverable: stable MVP with measurable extraction quality.
 

@@ -15,6 +15,8 @@ export async function parseRecipeFromText(
       extractionConfidence: 0.5,
       parserVersion: 'v0',
       rawExtractedText: rawText,
+      parseWarnings: [],
+      missingFields: [],
     },
     createdAt: now,
     updatedAt: now,

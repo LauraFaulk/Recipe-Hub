@@ -5,6 +5,8 @@ import { useState } from 'react';
 export function UploadForm() {
   const [status, setStatus] = useState<string>('Idle');
   const [mediaId, setMediaId] = useState<string>('');
+  const [ingestWarnings, setIngestWarnings] = useState<string[]>([]);
+  const [missingFields, setMissingFields] = useState<string[]>([]);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -17,6 +19,8 @@ export function UploadForm() {
       return;
     }
 
+    setIngestWarnings([]);
+    setMissingFields([]);
     setStatus('Uploading...');
     const formData = new FormData();
     formData.append('file', file);
@@ -42,8 +46,25 @@ export function UploadForm() {
       return;
     }
 
-    const ingestPayload = (await ingestResponse.json()) as { recipeId: string };
-    setStatus(`Done. Recipe ready: ${ingestPayload.recipeId}`);
+    const ingestPayload = (await ingestResponse.json()) as {
+      recipeId: string;
+      warnings: string[];
+      missingFields: string[];
+      confidence: number;
+      status: 'ready_for_review' | 'failed';
+    };
+
+    setIngestWarnings(ingestPayload.warnings ?? []);
+    setMissingFields(ingestPayload.missingFields ?? []);
+
+    if (ingestPayload.status === 'failed') {
+      setStatus(
+        `Ingestion completed with warnings (confidence: ${ingestPayload.confidence.toFixed(2)}). Review recipe: ${ingestPayload.recipeId}` ,
+      );
+      return;
+    }
+
+    setStatus(`Done (confidence: ${ingestPayload.confidence.toFixed(2)}). Recipe ready: ${ingestPayload.recipeId}`);
   }
 
   return (
@@ -54,6 +75,26 @@ export function UploadForm() {
       </button>
       <p>{status}</p>
       {mediaId ? <p>Last media ID: {mediaId}</p> : null}
+      {ingestWarnings.length > 0 ? (
+        <div className="warning-box" role="alert">
+          <strong>Ingestion warnings</strong>
+          <ul>
+            {ingestWarnings.map((warning) => (
+              <li key={warning}>{warning}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+      {missingFields.length > 0 ? (
+        <div className="warning-box" role="status">
+          <strong>Missing fields detected</strong>
+          <ul>
+            {missingFields.map((field) => (
+              <li key={field}>{field}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </form>
   );
 }
