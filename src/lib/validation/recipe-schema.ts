@@ -44,6 +44,8 @@ export const SourceInfoSchema = z.object({
   rawExtractedText: z.string().min(1).optional(),
   extractionConfidence: z.number().min(0).max(1),
   parserVersion: z.string().min(1),
+  parseWarnings: z.array(z.string().min(1)).optional(),
+  missingFields: z.array(z.string().min(1)).optional(),
 });
 
 export const RecipeSchema = z.object({
