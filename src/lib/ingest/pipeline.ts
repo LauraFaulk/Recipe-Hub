@@ -17,6 +17,7 @@ export async function runIngestionPipeline(
   const validated = safeValidateRecipe(parsed);
   if (!validated.success) {
     const missingFields = validated.error.issues.map((issue) => issue.path.join('.'));
+    const warnings = ['Recipe parse failed schema validation.'];
     return {
       recipe: buildFallbackRecipe(mediaId, sourceType, rawText),
       warnings: ['Recipe parse failed schema validation.'],
@@ -25,7 +26,14 @@ export async function runIngestionPipeline(
   }
 
   return {
-    recipe: validated.data,
+    recipe: {
+      ...validated.data,
+      source: {
+        ...validated.data.source,
+        parseWarnings: [],
+        missingFields: [],
+      },
+    },
     warnings: [],
     missingFields: [],
   };
@@ -56,6 +64,8 @@ function buildFallbackRecipe(mediaId: string, sourceType: 'image' | 'video' | 't
       rawExtractedText: rawText,
       extractionConfidence: 0,
       parserVersion: 'v0-fallback',
+      parseWarnings: warnings,
+      missingFields,
     },
     createdAt: now,
     updatedAt: now,
