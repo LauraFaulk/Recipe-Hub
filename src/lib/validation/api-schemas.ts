@@ -16,6 +16,7 @@ export const IngestResponseSchema = z.object({
   recipeId: z.string().min(1),
   confidence: z.number().min(0).max(1),
   warnings: z.array(z.string()),
+  missingFields: z.array(z.string()),
   status: z.enum(['ready_for_review', 'failed']),
 });
 
