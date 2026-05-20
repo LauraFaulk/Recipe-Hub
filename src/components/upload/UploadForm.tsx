@@ -5,12 +5,8 @@ import { useState } from 'react';
 export function UploadForm() {
   const [status, setStatus] = useState<string>('Idle');
   const [mediaId, setMediaId] = useState<string>('');
-  const [recipeId, setRecipeId] = useState<string>('');
   const [ingestWarnings, setIngestWarnings] = useState<string[]>([]);
   const [missingFields, setMissingFields] = useState<string[]>([]);
-
-  const maxUploadBytes = 10 * 1024 * 1024;
-  const allowedTypes = new Set(['image/png', 'image/jpeg', 'image/webp', 'video/mp4', 'text/plain']);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,17 +19,6 @@ export function UploadForm() {
       return;
     }
 
-    if (!allowedTypes.has(file.type)) {
-      setStatus('Unsupported file type. Use PNG/JPEG/WEBP, MP4, or text/plain.');
-      return;
-    }
-
-    if (file.size > maxUploadBytes) {
-      setStatus('File is too large. Maximum upload size is 10MB.');
-      return;
-    }
-
-    setRecipeId('');
     setIngestWarnings([]);
     setMissingFields([]);
     setStatus('Uploading...');
@@ -69,13 +54,12 @@ export function UploadForm() {
       status: 'ready_for_review' | 'failed';
     };
 
-    setRecipeId(ingestPayload.recipeId);
     setIngestWarnings(ingestPayload.warnings ?? []);
     setMissingFields(ingestPayload.missingFields ?? []);
 
     if (ingestPayload.status === 'failed') {
       setStatus(
-        `Ingestion completed with warnings (confidence: ${ingestPayload.confidence.toFixed(2)}). Review recipe: ${ingestPayload.recipeId}`,
+        `Ingestion completed with warnings (confidence: ${ingestPayload.confidence.toFixed(2)}). Review recipe: ${ingestPayload.recipeId}` ,
       );
       return;
     }
@@ -99,16 +83,6 @@ export function UploadForm() {
               <li key={warning}>{warning}</li>
             ))}
           </ul>
-        </div>
-      ) : null}
-      {recipeId ? (
-        <div className="actions">
-          <a className="button" href={`/recipes/${recipeId}/edit`}>
-            Open Editor
-          </a>
-          <a className="button secondary" href={`/recipes/${recipeId}/card`}>
-            Open Card View
-          </a>
         </div>
       ) : null}
       {missingFields.length > 0 ? (
