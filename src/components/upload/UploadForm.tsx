@@ -8,9 +8,6 @@ export function UploadForm() {
   const [ingestWarnings, setIngestWarnings] = useState<string[]>([]);
   const [missingFields, setMissingFields] = useState<string[]>([]);
 
-  const maxUploadBytes = 10 * 1024 * 1024;
-  const allowedTypes = new Set(['image/png', 'image/jpeg', 'image/webp', 'video/mp4', 'text/plain']);
-
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -19,16 +16,6 @@ export function UploadForm() {
 
     if (!file) {
       setStatus('Please select a file first.');
-      return;
-    }
-
-    if (!allowedTypes.has(file.type)) {
-      setStatus('Unsupported file type. Use PNG/JPEG/WEBP, MP4, or text/plain.');
-      return;
-    }
-
-    if (file.size > maxUploadBytes) {
-      setStatus('File is too large. Maximum upload size is 10MB.');
       return;
     }
 
