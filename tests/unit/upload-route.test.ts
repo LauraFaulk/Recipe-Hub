@@ -77,4 +77,7 @@ test('POST /api/upload accepts supported mime type and returns uploaded payload'
   assert.equal(payload.sourceType, 'image');
   assert.equal(payload.mediaId.startsWith('med_'), true);
   assert.equal(payload.storageUrl.startsWith('memory://'), true);
+
+  // ensure payload shape remains compatible with current dev memory storage scheme
+  assert.equal(payload.storageUrl.includes('/photo.png'), true);
 });
