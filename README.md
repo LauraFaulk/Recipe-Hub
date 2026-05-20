@@ -22,3 +22,4 @@ Open:
 - `/` home
 - `/upload` upload + ingest flow
 - `/recipes/<id>/edit` simple recipe JSON viewer
+- `/telemetry` ingest telemetry dashboard

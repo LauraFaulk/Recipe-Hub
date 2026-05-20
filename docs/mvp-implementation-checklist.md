@@ -59,7 +59,7 @@ Deliverable: user can quickly fix imperfect AI extraction.
 Deliverable: polished, usable recipe card for cooking.
 
 ## Phase 6 — Quality + instrumentation
-- [ ] Add integration tests for upload → ingest → render flow.
+- [x] Add integration tests for upload → ingest → render flow.
 - [ ] Add fixture set with expected extraction JSON.
 - [ ] Add telemetry for extraction errors and schema failures.
 - [x] Add retry and fallback messaging in UI.
