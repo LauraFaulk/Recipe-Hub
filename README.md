@@ -23,8 +23,6 @@ Adjust values in `.env.local` as needed for your local environment.
 npm run build
 npm run start
 npm run lint
-npm run format
-npm run format:write
 npm test
 ```
 
