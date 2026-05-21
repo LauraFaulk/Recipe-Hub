@@ -7,7 +7,7 @@ test('safeValidateRecipe accepts valid recipe payload', async (t) => {
   try {
     ({ safeValidateRecipe } = await import('../../src/lib/validation/recipe-schema.ts'));
   } catch {
-    t.skip('Skipping schema tests because zod is not available in this environment.');
+    t.skip('Skipping schema tests because validation module dependencies are unavailable in this environment.');
     return;
   }
 
@@ -36,7 +36,7 @@ test('safeValidateRecipe rejects missing title', async (t) => {
   try {
     ({ safeValidateRecipe } = await import('../../src/lib/validation/recipe-schema.ts'));
   } catch {
-    t.skip('Skipping schema tests because zod is not available in this environment.');
+    t.skip('Skipping schema tests because validation module dependencies are unavailable in this environment.');
     return;
   }
 
