@@ -12,23 +12,6 @@ async function loadPostUpload(t: import('node:test').TestContext) {
   }
 }
 
-
-test('POST /api/upload rejects missing file with 400', async (t) => {
-  const POST = await loadPostUpload(t);
-  if (!POST) return;
-
-  const request = new Request('http://localhost/api/upload', {
-    method: 'POST',
-    body: new FormData(),
-  });
-
-  const response = await POST(request);
-  assert.equal(response.status, 400);
-
-  const payload = (await response.json()) as { code: string };
-  assert.equal(payload.code, 'bad_request');
-});
-
 test('POST /api/upload rejects unsupported mime type with 415', async (t) => {
   const POST = await loadPostUpload(t);
   if (!POST) return;

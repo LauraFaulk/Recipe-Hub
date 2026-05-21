@@ -29,7 +29,7 @@ Deliverable: strict data model used across frontend + backend.
 - [x] Build upload UI (drag/drop + file picker).
 - [x] Validate file type/size client-side.
 - [x] Implement upload endpoint and object storage integration.
-- [x] Persist uploaded media record in DB.
+- [ ] Persist uploaded media record in DB.
 
 Deliverable: image is uploaded and tracked with a media ID.
 
