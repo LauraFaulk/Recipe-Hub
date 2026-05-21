@@ -66,12 +66,6 @@ Updates recipe after user edits.
 ### Response (200)
 Updated `Recipe` object.
 
-### Response (400)
-`bad_request` when path id and body recipe id do not match or payload is invalid.
-
-### Response (404)
-`not_found` when recipe does not exist.
-
 
 ## GET `/api/recipes/:id/export`
 Exports a recipe as a downloadable HTML file.
@@ -105,20 +99,3 @@ Returns ingestion telemetry summary and recent events.
   ]
 }
 ```
-
-
-## Error responses
-Common API error shape:
-
-```json
-{
-  "code": "bad_request",
-  "message": "human readable message"
-}
-```
-
-Typical status/code pairs in this MVP:
-- `400 bad_request` (invalid payload or missing required fields)
-- `404 not_found` (missing media/recipe)
-- `413 payload_too_large` (upload exceeds 10MB)
-- `415 unsupported_media_type` (upload MIME type not allowed)
