@@ -1,8 +1,8 @@
-import { getRecipe, updateRecipe } from '../../../../lib/storage/recipe-store';
+import { getRecipe, updateRecipe } from '../../../../lib/storage/recipe-store.ts';
 import {
   RecipeByIdResponseSchema,
   RecipeUpdateRequestSchema,
-} from '../../../../lib/validation/api-schemas';
+} from '../../../../lib/validation/api-schemas.ts';
 
 interface RouteContext {
   params: Promise<{ id: string }>;

@@ -1,8 +1,10 @@
 import type { Recipe } from '../../types/recipe';
 
-export function RecipeCardView({ recipe }: { recipe: Recipe }) {
+export type CardVariant = 'minimal' | 'cozy' | 'pro';
+
+export function RecipeCardView({ recipe, variant = 'minimal' }: { recipe: Recipe; variant?: CardVariant }) {
   return (
-    <article className="recipe-card printable-card">
+    <article className={`recipe-card printable-card recipe-card-${variant}`}>
       <header>
         <h1>{recipe.title}</h1>
         <p>
