@@ -1,6 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import type { Recipe } from '../../types/recipe';
 
 const recipes = new Map<string, Recipe>();
+const dataDir = path.join(process.cwd(), '.data');
+const recipesFilePath = path.join(dataDir, 'recipes.json');
 
 function seedRecipes() {
   if (recipes.size > 0) {
@@ -62,10 +67,39 @@ function seedRecipes() {
   recipes.set(seededRecipe.id, seededRecipe);
 }
 
+function loadRecipesFromDisk() {
+  try {
+    if (!fs.existsSync(recipesFilePath)) {
+      return;
+    }
+
+    const raw = fs.readFileSync(recipesFilePath, 'utf8');
+    const parsed = JSON.parse(raw) as Recipe[];
+    for (const recipe of parsed) {
+      recipes.set(recipe.id, recipe);
+    }
+  } catch {
+    // Ignore malformed/missing disk data and continue with in-memory map.
+  }
+}
+
+function persistRecipesToDisk() {
+  try {
+    fs.mkdirSync(dataDir, { recursive: true });
+    const payload = JSON.stringify(Array.from(recipes.values()), null, 2);
+    fs.writeFileSync(recipesFilePath, payload, 'utf8');
+  } catch {
+    // Keep API non-fatal if disk persistence fails in constrained environments.
+  }
+}
+
+loadRecipesFromDisk();
 seedRecipes();
+persistRecipesToDisk();
 
 export function putRecipe(recipe: Recipe): Recipe {
   recipes.set(recipe.id, recipe);
+  persistRecipesToDisk();
   return recipe;
 }
 
@@ -79,5 +113,6 @@ export function updateRecipe(recipeId: string, recipe: Recipe): Recipe | undefin
   }
 
   recipes.set(recipeId, recipe);
+  persistRecipesToDisk();
   return recipe;
 }
