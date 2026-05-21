@@ -13,8 +13,11 @@ export default function HomePage() {
         <Link href="/recipes/cowboy-butter-chicken-shells/edit" className="button secondary">
           Open Seed Recipe
         </Link>
-              <Link href="/recipes/cowboy-butter-chicken-shells/card" className="button secondary">
+        <Link href="/recipes/cowboy-butter-chicken-shells/card" className="button secondary">
           View Recipe Card
+        </Link>
+        <Link href="/telemetry" className="button secondary">
+          View Telemetry
         </Link>
       </div>
     </main>
