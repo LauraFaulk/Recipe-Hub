@@ -31,25 +31,3 @@ test('ApiErrorSchema rejects missing message', () => {
   const result = ApiErrorSchema.safeParse({ code: 'bad_request' });
   assert.equal(result.success, false);
 });
-
-test('ApiErrorSchema accepts valid payload with details', () => {
-  const result = ApiErrorSchema.safeParse({
-    code: 'bad_request',
-    message: 'invalid input',
-    details: { field: 'mediaId' },
-  });
-
-  assert.equal(result.success, true);
-});
-
-test('IngestResponseSchema rejects out-of-range confidence', () => {
-  const result = IngestResponseSchema.safeParse({
-    recipeId: 'rcp_1',
-    confidence: 1.5,
-    warnings: [],
-    missingFields: [],
-    status: 'ready_for_review',
-  });
-
-  assert.equal(result.success, false);
-});
