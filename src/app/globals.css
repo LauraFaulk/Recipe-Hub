@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   color-scheme: light;
   font-family: Inter, system-ui, Arial, sans-serif;
@@ -135,4 +139,19 @@ textarea {
 
 .button.danger {
   background: #b84b6a;
+}
+
+.recipe-card-minimal {
+  background: #f8f2f4;
+  border-color: #ddb5c1;
+}
+
+.recipe-card-cozy {
+  background: #fff4e8;
+  border-color: #e5c9a8;
+}
+
+.recipe-card-pro {
+  background: #eef4ff;
+  border-color: #b9c9ee;
 }
