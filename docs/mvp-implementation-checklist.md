@@ -19,7 +19,7 @@ Deliverable: clean booting web app.
 
 ## Phase 1 — Data contracts + validation
 - [x] Add canonical `Recipe` interfaces in `src/types/recipe.ts`.
-- [x] Add runtime schema validation in `src/lib/validation/recipe-schema.ts`.
+- [x] Add `zod` runtime schema validation in `src/lib/validation/recipe-schema.ts`.
 - [x] Create API contract types for upload/ingest endpoints.
 - [x] Add unit tests for valid/invalid recipe payloads.
 
@@ -54,7 +54,7 @@ Deliverable: user can quickly fix imperfect AI extraction.
 - [x] Build first template (`MinimalCard`).
 - [x] Add style variants selector (Minimal/Cozy/Pro placeholders).
 - [x] Add print-friendly “cook mode” view.
-- [x] Add export endpoint (downloadable HTML for now; PNG/PDF can follow).
+- [x] Add export endpoint (PNG or PDF).
 
 Deliverable: polished, usable recipe card for cooking.
 
