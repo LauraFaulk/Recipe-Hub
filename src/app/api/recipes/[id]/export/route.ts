@@ -1,4 +1,4 @@
-import { getRecipe } from '../../../../../lib/storage/recipe-store.ts';
+import { getRecipe } from '../../../../../lib/storage/recipe-store';
 
 function escapeHtml(input: string): string {
   return input
