@@ -42,6 +42,8 @@ export interface SourceInfo {
   rawExtractedText?: string;
   extractionConfidence: number;
   parserVersion: string;
+  parseWarnings?: string[];
+  missingFields?: string[];
 }
 
 export interface Recipe {
