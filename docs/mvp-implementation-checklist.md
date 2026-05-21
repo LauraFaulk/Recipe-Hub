@@ -70,7 +70,7 @@ Deliverable: stable MVP with measurable extraction quality.
 
 ## Suggested first 10 tickets
 1. Bootstrap Next.js + Tailwind project.
-2. Add recipe interfaces and zod schema.
+2. Add recipe interfaces and runtime schema validation.
 3. Create upload page shell.
 4. Add upload API route + file storage integration.
 5. Create ingest route skeleton and pipeline orchestrator.
