@@ -42,13 +42,28 @@ Triggers extraction and structured parsing for a previously uploaded file.
 ## GET `/api/recipes/:id`
 Returns structured recipe payload.
 
+### Response (200)
+```json
+{
+  "recipe": { "id": "rcp_123", "title": "..." }
+}
+```
+
+### Response (404)
+```json
+{
+  "code": "not_found",
+  "message": "recipe not found"
+}
+```
+
 ## PATCH `/api/recipes/:id`
 Updates recipe after user edits.
 
 ### Request
 `Recipe` object from `src/types/recipe.ts`.
 
-### Response
+### Response (200)
 Updated `Recipe` object.
 
 
