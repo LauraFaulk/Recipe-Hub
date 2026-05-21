@@ -1,12 +1,24 @@
 import { UploadResponseSchema } from '../../../lib/validation/api-schemas';
 import { putMedia } from '../../../lib/storage/media-store';
 
+
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+const ALLOWED_MIME_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp', 'video/mp4', 'text/plain']);
+
 export async function POST(request: Request): Promise<Response> {
   const formData = await request.formData();
   const file = formData.get('file');
 
   if (!(file instanceof File)) {
     return Response.json({ code: 'bad_request', message: 'file is required' }, { status: 400 });
+  }
+
+  if (!ALLOWED_MIME_TYPES.has(file.type)) {
+    return Response.json({ code: 'unsupported_media_type', message: 'unsupported file type' }, { status: 415 });
+  }
+
+  if (file.size > MAX_UPLOAD_BYTES) {
+    return Response.json({ code: 'payload_too_large', message: 'file exceeds 10MB limit' }, { status: 413 });
   }
 
   const mediaId = `med_${crypto.randomUUID()}`;
