@@ -13,10 +13,14 @@ Uploads a media file and returns a media record.
 {
   "mediaId": "med_123",
   "sourceType": "image",
-  "storageUrl": "https://...",
+  "storageUrl": "memory://med_123/photo.png",
   "status": "uploaded"
 }
 ```
+
+Notes:
+- In local MVP mode, `storageUrl` currently uses `memory://...`.
+- The response schema also allows `http://...` or `https://...` for future external storage backends.
 
 ## POST `/api/ingest`
 Triggers extraction and structured parsing for a previously uploaded file.
@@ -38,6 +42,10 @@ Triggers extraction and structured parsing for a previously uploaded file.
   "status": "ready_for_review"
 }
 ```
+
+Possible statuses:
+- `ready_for_review`: parse succeeded with no warnings.
+- `failed`: parse finished with warnings and/or missing required fields.
 
 ## GET `/api/recipes/:id`
 Returns structured recipe payload.
