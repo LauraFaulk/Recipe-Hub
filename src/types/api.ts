@@ -15,6 +15,7 @@ export interface IngestResponse {
   recipeId: string;
   confidence: number;
   warnings: string[];
+  missingFields: string[];
   status: 'ready_for_review' | 'failed';
 }
 
