@@ -1,5 +1,5 @@
-import type { RecipeExtractionResult, Recipe } from '../../types/recipe';
-import { safeValidateRecipe } from '../validation/recipe-schema';
+import type { RecipeExtractionResult, Recipe } from '../../types/recipe.ts';
+import { safeValidateRecipe } from '../validation/recipe-schema.ts';
 
 export interface PipelineDependencies {
   extractRawText: (mediaId: string) => Promise<string>;

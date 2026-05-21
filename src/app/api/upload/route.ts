@@ -1,5 +1,9 @@
-import { UploadResponseSchema } from '../../../lib/validation/api-schemas';
-import { putMedia } from '../../../lib/storage/media-store';
+import { UploadResponseSchema } from '../../../lib/validation/api-schemas.ts';
+import { putMedia } from '../../../lib/storage/media-store.ts';
+
+
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+const ALLOWED_MIME_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp', 'video/mp4', 'text/plain']);
 
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;

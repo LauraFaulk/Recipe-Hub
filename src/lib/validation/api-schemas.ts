@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { RecipeSchema } from './recipe-schema';
+import { RecipeSchema } from './recipe-schema.ts';
 
 export const UploadResponseSchema = z.object({
   mediaId: z.string().min(1),
