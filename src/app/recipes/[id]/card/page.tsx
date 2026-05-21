@@ -29,13 +29,22 @@ export default async function RecipeCardPage({
 
   return (
     <main className="container stack">
+      <PrintCardActions recipeId={id} />
+      <a className="button secondary" href={`/api/recipes/${id}/export`}>
+        Export HTML
+      </a>
       <div className="actions">
-        <Link href={`/recipes/${id}/edit`} className="button secondary">
-          Back to Editor
-        </Link>
-        <span className="button" role="note">Use browser print for hard copy</span>
+        <a className={`button ${selectedVariant === 'minimal' ? '' : 'secondary'}`} href={`/recipes/${id}/card?variant=minimal`}>
+          Minimal
+        </a>
+        <a className={`button ${selectedVariant === 'cozy' ? '' : 'secondary'}`} href={`/recipes/${id}/card?variant=cozy`}>
+          Cozy
+        </a>
+        <a className={`button ${selectedVariant === 'pro' ? '' : 'secondary'}`} href={`/recipes/${id}/card?variant=pro`}>
+          Pro
+        </a>
       </div>
-      <RecipeCardView recipe={recipe} />
+      <RecipeCardView recipe={recipe} variant={selectedVariant as 'minimal' | 'cozy' | 'pro'} />
     </main>
   );
 }

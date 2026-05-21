@@ -10,9 +10,9 @@ Ship a vertical slice that supports:
 ---
 
 ## Phase 0 — Project setup
-- [ ] Initialize Next.js app (`app` router, TypeScript, Tailwind).
-- [ ] Add linting/formatting (ESLint + Prettier).
-- [ ] Add env management with `.env.example`.
+- [x] Initialize Next.js app (`app` router, TypeScript, Tailwind).
+- [x] Add linting/formatting (ESLint + Prettier).
+- [x] Add env management with `.env.example`.
 - [x] Set up package scripts for `dev`, `build`, `test`, and `lint`.
 
 Deliverable: clean booting web app.
@@ -52,16 +52,16 @@ Deliverable: user can quickly fix imperfect AI extraction.
 
 ## Phase 5 — Recipe card rendering
 - [x] Build first template (`MinimalCard`).
-- [ ] Add style variants selector (Minimal/Cozy/Pro placeholders).
+- [x] Add style variants selector (Minimal/Cozy/Pro placeholders).
 - [x] Add print-friendly “cook mode” view.
-- [ ] Add export endpoint (PNG or PDF).
+- [x] Add export endpoint (PNG or PDF).
 
 Deliverable: polished, usable recipe card for cooking.
 
 ## Phase 6 — Quality + instrumentation
 - [x] Add integration tests for upload → ingest → render flow.
-- [ ] Add fixture set with expected extraction JSON.
-- [ ] Add telemetry for extraction errors and schema failures.
+- [x] Add fixture set with expected extraction JSON.
+- [x] Add telemetry for extraction errors and schema failures.
 - [x] Add retry and fallback messaging in UI.
 
 Deliverable: stable MVP with measurable extraction quality.

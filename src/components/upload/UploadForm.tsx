@@ -64,6 +64,17 @@ export function UploadForm() {
       return;
     }
 
+    if (!allowedTypes.has(file.type)) {
+      setStatus('Unsupported file type. Use PNG/JPEG/WEBP, MP4, or text/plain.');
+      return;
+    }
+
+    if (file.size > maxUploadBytes) {
+      setStatus('File is too large. Maximum upload size is 10MB.');
+      return;
+    }
+
+    setRecipeId('');
     setIngestWarnings([]);
     setMissingFields([]);
     setStatus('Uploading...');
