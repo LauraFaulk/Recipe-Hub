@@ -68,6 +68,17 @@ Deliverable: stable MVP with measurable extraction quality.
 
 ---
 
+## Phase 7 — Release hardening (post-MVP)
+- [ ] Run a full manual acceptance pass via `npm run dev` across `/upload`, `/recipes/<id>/edit`, `/recipes/<id>/card`, and `/telemetry`.
+- [ ] Run `npm run build` and `npm run lint` cleanly in the target deployment environment.
+- [ ] Finalize environment configuration for deployment (`.env.local` / host secrets) and document required values.
+- [ ] Decide export roadmap: keep HTML-only for v1 or add PNG/PDF follow-up ticket(s).
+- [ ] Add lightweight runtime monitoring/alerts for ingest failures in shared environments.
+
+Deliverable: deployment-ready MVP with clear operational guardrails.
+
+---
+
 ## Suggested first 10 tickets
 1. Bootstrap Next.js + Tailwind project.
 2. Add recipe interfaces and runtime schema validation.
