@@ -11,6 +11,10 @@ test('safeValidateRecipe accepts valid recipe payload', async (t) => {
     return;
   }
 
+import { safeValidateRecipe } from '../../src/lib/validation/recipe-schema';
+import { IngestRequestSchema } from '../../src/lib/validation/api-schemas';
+
+test('safeValidateRecipe accepts valid recipe payload', () => {
   const now = new Date().toISOString();
   const result = safeValidateRecipe({
     id: 'rcp_1',
@@ -36,6 +40,7 @@ test('safeValidateRecipe rejects missing title', async (t) => {
     return;
   }
 
+test('safeValidateRecipe rejects missing title', () => {
   const now = new Date().toISOString();
   const result = safeValidateRecipe({
     id: 'rcp_1',
@@ -48,4 +53,9 @@ test('safeValidateRecipe rejects missing title', async (t) => {
   });
 
   assert.equal(result.success, false);
+});
+
+test('IngestRequestSchema requires mediaId', () => {
+  assert.equal(IngestRequestSchema.safeParse({ mediaId: 'med_1' }).success, true);
+  assert.equal(IngestRequestSchema.safeParse({}).success, false);
 });

@@ -10,8 +10,8 @@ export default function HomePage() {
         <Link href="/upload" className="button">
           Upload Media
         </Link>
-        <Link href="/recipes/cowboy-butter-chicken-shells/edit" className="button secondary">
-          Open Seed Recipe
+        <Link href="/recipes/demo/edit" className="button secondary">
+          Open Demo Editor
         </Link>
         <Link href="/recipes/cowboy-butter-chicken-shells/card" className="button secondary">
           View Recipe Card
