@@ -42,14 +42,35 @@ Triggers extraction and structured parsing for a previously uploaded file.
 ## GET `/api/recipes/:id`
 Returns structured recipe payload.
 
+### Response (200)
+```json
+{
+  "recipe": { "id": "rcp_123", "title": "..." }
+}
+```
+
+### Response (404)
+```json
+{
+  "code": "not_found",
+  "message": "recipe not found"
+}
+```
+
 ## PATCH `/api/recipes/:id`
 Updates recipe after user edits.
 
 ### Request
 `Recipe` object from `src/types/recipe.ts`.
 
-### Response
+### Response (200)
 Updated `Recipe` object.
+
+### Response (400)
+`bad_request` when path id and body recipe id do not match or payload is invalid.
+
+### Response (404)
+`not_found` when recipe does not exist.
 
 
 ## GET `/api/recipes/:id/export`
@@ -84,3 +105,20 @@ Returns ingestion telemetry summary and recent events.
   ]
 }
 ```
+
+
+## Error responses
+Common API error shape:
+
+```json
+{
+  "code": "bad_request",
+  "message": "human readable message"
+}
+```
+
+Typical status/code pairs in this MVP:
+- `400 bad_request` (invalid payload or missing required fields)
+- `404 not_found` (missing media/recipe)
+- `413 payload_too_large` (upload exceeds 10MB)
+- `415 unsupported_media_type` (upload MIME type not allowed)
