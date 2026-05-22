@@ -56,21 +56,6 @@ npm run build
 
 Then do a manual smoke pass through `/upload`, `/recipes/<id>/card`, `/recipes/<id>/export`, and `/telemetry`.
 
-## GitHub Pages deployment
-
-This repository is configured to publish a static Next.js export to GitHub Pages from the `main` branch via Actions.
-
-- Config file: `next.config.ts` (uses `output: 'export'` and applies `/Recipe-Hub` base path in Actions).
-- Workflow: `.github/workflows/deploy-pages.yml`.
-- Published artifact directory: `out/`.
-
-For local parity checks before pushing:
-
-```bash
-npm test
-npm run build
-```
-
 
 ## Local data persistence
 
