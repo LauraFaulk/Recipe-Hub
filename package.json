@@ -10,13 +10,13 @@
     "test": "node --test --experimental-strip-types tests/unit/*.test.ts",
     "lint": "next lint",
     "format": "prettier --check .",
-    "format:write": "prettier --write .",
-    "verify:pages": "npm test && npm run build"
+    "format:write": "prettier --write ."
   },
   "dependencies": {
     "next": "^15.3.2",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
