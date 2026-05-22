@@ -69,7 +69,6 @@ For local parity checks before pushing:
 ```bash
 npm test
 npm run build
-npm run verify:pages
 ```
 
 ### If the live site still looks stale
@@ -79,15 +78,6 @@ npm run verify:pages
 3. Open the latest run of `.github/workflows/deploy-pages.yml` and verify `build` and `deploy` both passed.
 4. Hard-refresh the browser (or use an incognito window) to avoid cached CSS/JS assets.
 5. Verify the live URL is the repo Pages path: `https://<user>.github.io/Recipe-Hub/`.
-
-### Post-deploy visual validation checklist
-
-After a successful Pages deploy, verify the old-timey card experience on the live site:
-
-- Home page shows a cream-toned background.
-- Home page shows three dusty-rose recipe preview cards (Minimal / Cozy / Pro).
-- Opening each variant link renders a styled recipe card page.
-- `Export HTML` action is visible on the recipe card view.
 
 
 ## Local data persistence
