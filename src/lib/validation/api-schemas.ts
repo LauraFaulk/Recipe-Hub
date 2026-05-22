@@ -1,5 +1,4 @@
 import { safeValidateRecipe } from './recipe-schema.ts';
-import type { ApiError, IngestRequest, IngestResponse, RecipeByIdResponse, RecipeUpdateRequest, UploadResponse } from '../../types/api.ts';
 
 type Parseable<T> = {
   parse(input: unknown): T;
@@ -22,7 +21,7 @@ function schema<T>(validator: (input: unknown) => { ok: true; value: T } | { ok:
 
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null;
 
-export const UploadResponseSchema = schema<UploadResponse>((input) => {
+export const UploadResponseSchema = schema((input) => {
   if (!isObject(input)) return { ok: false as const, issues: [{ path: [], message: 'object required' }] };
   const { mediaId, sourceType, storageUrl, status } = input;
   const issues = [] as Array<{ path: Array<string | number>; message: string }>;
@@ -33,14 +32,14 @@ export const UploadResponseSchema = schema<UploadResponse>((input) => {
   return issues.length ? { ok: false as const, issues } : { ok: true as const, value: { mediaId, sourceType, storageUrl, status: 'uploaded' as const } };
 });
 
-export const IngestRequestSchema = schema<IngestRequest>((input) => {
+export const IngestRequestSchema = schema((input) => {
   if (!isObject(input) || typeof input.mediaId !== 'string' || input.mediaId.length === 0) {
     return { ok: false as const, issues: [{ path: ['mediaId'], message: 'required' }] };
   }
   return { ok: true as const, value: { mediaId: input.mediaId } };
 });
 
-export const IngestResponseSchema = schema<IngestResponse>((input) => {
+export const IngestResponseSchema = schema((input) => {
   if (!isObject(input)) return { ok: false as const, issues: [{ path: [], message: 'object required' }] };
 
   const issues = [] as Array<{ path: Array<string | number>; message: string }>;
@@ -66,16 +65,16 @@ export const IngestResponseSchema = schema<IngestResponse>((input) => {
   };
 });
 
-export const RecipeByIdResponseSchema = schema<RecipeByIdResponse>((input) => {
+export const RecipeByIdResponseSchema = schema((input) => {
   if (!isObject(input)) return { ok: false as const, issues: [{ path: [], message: 'object required' }] };
   const checked = safeValidateRecipe(input.recipe);
   if (!checked.success) return { ok: false as const, issues: checked.error.issues.map((i) => ({ path: ['recipe', ...i.path], message: i.message })) };
   return { ok: true as const, value: { recipe: checked.data } };
 });
 
-export const RecipeUpdateRequestSchema: Parseable<RecipeUpdateRequest> = RecipeByIdResponseSchema;
+export const RecipeUpdateRequestSchema = RecipeByIdResponseSchema;
 
-export const ApiErrorSchema = schema<ApiError>((input) => {
+export const ApiErrorSchema = schema((input) => {
   if (!isObject(input)) return { ok: false as const, issues: [{ path: [], message: 'object required' }] };
   const issues = [] as Array<{ path: Array<string | number>; message: string }>;
   if (typeof input.code !== 'string' || input.code.length === 0) issues.push({ path: ['code'], message: 'required' });
@@ -92,3 +91,7 @@ export const ApiErrorSchema = schema<ApiError>((input) => {
     },
   };
 });
+
+export const RecipeUpdateRequestSchema = RecipeByIdResponseSchema;
+
+export const ApiErrorSchema = schema((input) => ({ ok: true as const, value: input as { code: string; message: string; details?: Record<string, unknown> } }));
