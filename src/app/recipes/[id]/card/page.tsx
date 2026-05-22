@@ -1,5 +1,6 @@
+import Link from 'next/link';
+
 import { RecipeCardView } from '../../../../components/cards/RecipeCardView';
-import { PrintCardActions } from '../../../../components/cards/PrintCardActions';
 import { getRecipe } from '../../../../lib/storage/recipe-store';
 
 const ALLOWED_VARIANTS = new Set(['minimal', 'cozy', 'pro'] as const);
