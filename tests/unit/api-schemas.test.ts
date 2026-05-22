@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { ApiErrorSchema, IngestResponseSchema } from '../../src/lib/validation/api-schemas.ts';
+import { ApiErrorSchema, IngestResponseSchema, UploadResponseSchema } from '../../src/lib/validation/api-schemas.ts';
 
 test('IngestResponseSchema rejects invalid status', () => {
   const result = IngestResponseSchema.safeParse({
@@ -29,5 +29,81 @@ test('IngestResponseSchema accepts valid payload', () => {
 
 test('ApiErrorSchema rejects missing message', () => {
   const result = ApiErrorSchema.safeParse({ code: 'bad_request' });
+  assert.equal(result.success, false);
+});
+
+test('ApiErrorSchema accepts valid payload with details', () => {
+  const result = ApiErrorSchema.safeParse({
+    code: 'bad_request',
+    message: 'invalid input',
+    details: { field: 'mediaId' },
+  });
+
+  assert.equal(result.success, true);
+});
+
+test('IngestResponseSchema rejects out-of-range confidence', () => {
+  const result = IngestResponseSchema.safeParse({
+    recipeId: 'rcp_1',
+    confidence: 1.5,
+    warnings: [],
+    missingFields: [],
+    status: 'ready_for_review',
+  });
+
+  assert.equal(result.success, false);
+});
+
+test('UploadResponseSchema rejects invalid storageUrl scheme', () => {
+  const result = UploadResponseSchema.safeParse({
+    mediaId: 'med_1',
+    sourceType: 'image',
+    storageUrl: 'ftp://example.com/file.png',
+    status: 'uploaded',
+  });
+
+  assert.equal(result.success, false);
+});
+
+test('UploadResponseSchema accepts memory storage URL', () => {
+  const result = UploadResponseSchema.safeParse({
+    mediaId: 'med_1',
+    sourceType: 'image',
+    storageUrl: 'memory://med_1/photo.png',
+    status: 'uploaded',
+  });
+
+  assert.equal(result.success, true);
+});
+
+test('ApiErrorSchema rejects non-object details', () => {
+  const result = ApiErrorSchema.safeParse({
+    code: 'bad_request',
+    message: 'invalid input',
+    details: 'mediaId',
+  });
+
+  assert.equal(result.success, false);
+});
+
+test('UploadResponseSchema rejects unsupported sourceType', () => {
+  const result = UploadResponseSchema.safeParse({
+    mediaId: 'med_1',
+    sourceType: 'audio',
+    storageUrl: 'memory://med_1/file.bin',
+    status: 'uploaded',
+  });
+
+  assert.equal(result.success, false);
+});
+
+test('UploadResponseSchema rejects non-uploaded status', () => {
+  const result = UploadResponseSchema.safeParse({
+    mediaId: 'med_1',
+    sourceType: 'image',
+    storageUrl: 'memory://med_1/file.bin',
+    status: 'processing',
+  });
+
   assert.equal(result.success, false);
 });

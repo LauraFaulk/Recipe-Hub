@@ -1,14 +1,4 @@
-import { z } from 'zod';
-import { RecipeSchema } from './recipe-schema.ts';
-
-export const UploadResponseSchema = z.object({
-  mediaId: z.string().min(1),
-  sourceType: z.enum(['image', 'video', 'text']),
-  storageUrl: z.string().min(1).refine((value) => value.startsWith('memory://') || value.startsWith('http://') || value.startsWith('https://'), {
-    message: 'storageUrl must use memory://, http://, or https://',
-  }),
-  status: z.literal('uploaded'),
-});
+import { safeValidateRecipe } from './recipe-schema.ts';
 
 type Parseable<T> = {
   parse(input: unknown): T;
@@ -51,7 +41,28 @@ export const IngestRequestSchema = schema((input) => {
 
 export const IngestResponseSchema = schema((input) => {
   if (!isObject(input)) return { ok: false as const, issues: [{ path: [], message: 'object required' }] };
-  return { ok: true as const, value: input as { recipeId: string; confidence: number; warnings: string[]; missingFields: string[]; status: 'ready_for_review' | 'failed' } };
+
+  const issues = [] as Array<{ path: Array<string | number>; message: string }>;
+  const { recipeId, confidence, warnings, missingFields, status } = input;
+
+  if (typeof recipeId !== 'string' || recipeId.length === 0) issues.push({ path: ['recipeId'], message: 'required' });
+  if (typeof confidence !== 'number' || confidence < 0 || confidence > 1) issues.push({ path: ['confidence'], message: 'must be between 0 and 1' });
+  if (!Array.isArray(warnings) || warnings.some((warning) => typeof warning !== 'string')) issues.push({ path: ['warnings'], message: 'must be a string array' });
+  if (!Array.isArray(missingFields) || missingFields.some((field) => typeof field !== 'string')) issues.push({ path: ['missingFields'], message: 'must be a string array' });
+  if (status !== 'ready_for_review' && status !== 'failed') issues.push({ path: ['status'], message: 'invalid' });
+
+  if (issues.length > 0) return { ok: false as const, issues };
+
+  return {
+    ok: true as const,
+    value: {
+      recipeId,
+      confidence,
+      warnings,
+      missingFields,
+      status,
+    },
+  };
 });
 
 export const RecipeByIdResponseSchema = schema((input) => {
@@ -59,6 +70,26 @@ export const RecipeByIdResponseSchema = schema((input) => {
   const checked = safeValidateRecipe(input.recipe);
   if (!checked.success) return { ok: false as const, issues: checked.error.issues.map((i) => ({ path: ['recipe', ...i.path], message: i.message })) };
   return { ok: true as const, value: { recipe: checked.data } };
+});
+
+export const RecipeUpdateRequestSchema = RecipeByIdResponseSchema;
+
+export const ApiErrorSchema = schema((input) => {
+  if (!isObject(input)) return { ok: false as const, issues: [{ path: [], message: 'object required' }] };
+  const issues = [] as Array<{ path: Array<string | number>; message: string }>;
+  if (typeof input.code !== 'string' || input.code.length === 0) issues.push({ path: ['code'], message: 'required' });
+  if (typeof input.message !== 'string' || input.message.length === 0) issues.push({ path: ['message'], message: 'required' });
+  if (input.details !== undefined && !isObject(input.details)) issues.push({ path: ['details'], message: 'must be an object when provided' });
+
+  if (issues.length > 0) return { ok: false as const, issues };
+  return {
+    ok: true as const,
+    value: {
+      code: input.code,
+      message: input.message,
+      details: input.details as Record<string, unknown> | undefined,
+    },
+  };
 });
 
 export const RecipeUpdateRequestSchema = RecipeByIdResponseSchema;
