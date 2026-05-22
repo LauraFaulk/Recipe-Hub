@@ -91,3 +91,7 @@ export const ApiErrorSchema = schema((input) => {
     },
   };
 });
+
+export const RecipeUpdateRequestSchema = RecipeByIdResponseSchema;
+
+export const ApiErrorSchema = schema((input) => ({ ok: true as const, value: input as { code: string; message: string; details?: Record<string, unknown> } }));

@@ -142,16 +142,16 @@ textarea {
 }
 
 .recipe-card-minimal {
-  background: #dcb0bc;
-  border-color: #be8594;
+  background: #f8f2f4;
+  border-color: #ddb5c1;
 }
 
 .recipe-card-cozy {
-  background: #d7a0af;
-  border-color: #b77586;
+  background: #fff4e8;
+  border-color: #e5c9a8;
 }
 
 .recipe-card-pro {
-  background: #ce95a6;
-  border-color: #ad6e80;
+  background: #eef4ff;
+  border-color: #b9c9ee;
 }
