@@ -29,6 +29,10 @@ body {
   gap: 0.75rem;
 }
 
+.muted {
+  color: #6e5960;
+}
+
 .button {
   background: #2d5bff;
   color: white;
