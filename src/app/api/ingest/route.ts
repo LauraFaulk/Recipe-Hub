@@ -1,10 +1,10 @@
-import { runIngestionPipeline } from '../../../lib/ingest/pipeline.ts';
-import { IngestRequestSchema, IngestResponseSchema } from '../../../lib/validation/api-schemas.ts';
-import { getMedia } from '../../../lib/storage/media-store.ts';
-import { extractRawTextFromMedia } from '../../../lib/ocr/extract-raw-text.ts';
-import { parseRecipeFromText } from '../../../lib/parser/parse-recipe.ts';
-import { putRecipe } from '../../../lib/storage/recipe-store.ts';
-import { recordIngestEvent } from '../../../lib/storage/telemetry-store.ts';
+import { runIngestionPipeline } from '../../../lib/ingest/pipeline';
+import { IngestRequestSchema, IngestResponseSchema } from '../../../lib/validation/api-schemas';
+import { getMedia } from '../../../lib/storage/media-store';
+import { extractRawTextFromMedia } from '../../../lib/ocr/extract-raw-text';
+import { parseRecipeFromText } from '../../../lib/parser/parse-recipe';
+import { putRecipe } from '../../../lib/storage/recipe-store';
+import { recordIngestEvent } from '../../../lib/storage/telemetry-store';
 
 export async function POST(request: Request): Promise<Response> {
   const parsedBody = IngestRequestSchema.safeParse(await request.json());

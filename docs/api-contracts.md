@@ -130,8 +130,3 @@ Typical status/code pairs in this MVP:
 - `404 not_found` (missing media/recipe)
 - `413 payload_too_large` (upload exceeds 10MB)
 - `415 unsupported_media_type` (upload MIME type not allowed)
-
-## Known MVP constraints
-- Upload storage URLs are local-first (`memory://...`) in this implementation.
-- Recipe export is HTML attachment only in MVP (PNG/PDF is not yet part of this contract).
-- Telemetry API returns only recent events (current route requests `listIngestEvents(25)`).
