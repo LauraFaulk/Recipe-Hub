@@ -9,8 +9,8 @@
 
 body {
   margin: 0;
-  background: #f8f8fb;
-  color: #14141a;
+  background: #f6f0e3;
+  color: #2f2529;
 }
 
 .container {
@@ -61,8 +61,8 @@ textarea {
 .recipe-card {
   display: grid;
   gap: 1rem;
-  background: #e8c8d0;
-  border: 1px solid #d8aeb9;
+  background: #d9a5b3;
+  border: 1px solid #b97b8b;
   border-radius: 14px;
   padding: 1rem;
 }
