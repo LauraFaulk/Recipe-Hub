@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { Recipe } from '../../types/recipe';
+import type { Recipe } from '../../types/recipe.ts';
 
 const recipes = new Map<string, Recipe>();
 const dataDir = path.join(process.cwd(), '.data');
