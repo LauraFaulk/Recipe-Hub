@@ -1,0 +1,13 @@
+{
+  "media": {
+    "mimeType": "text/plain",
+    "filename": "sample-recipe.txt",
+    "content": "2 eggs\n1 cup flour\nMix ingredients and bake for 20 minutes"
+  },
+  "expected": {
+    "status": "uploaded",
+    "ingestStatus": "ready_for_review",
+    "minConfidence": 0,
+    "maxConfidence": 1
+  }
+}
