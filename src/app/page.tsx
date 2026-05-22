@@ -26,6 +26,11 @@ export default function HomePage() {
         <article className="recipe-card recipe-card-minimal">
           <h2>Minimal</h2>
           <p>Clean recipe presentation with a classic cookbook feel.</p>
+          <ul>
+            <li>2 cups flour</li>
+            <li>1 cup milk</li>
+            <li>1 tsp baking powder</li>
+          </ul>
           <Link href="/recipes/cowboy-butter-chicken-shells/card?variant=minimal" className="button secondary">
             Open Minimal Card
           </Link>
@@ -33,6 +38,11 @@ export default function HomePage() {
         <article className="recipe-card recipe-card-cozy">
           <h2>Cozy</h2>
           <p>Warm, old-timey palette for handwritten-family-recipe vibes.</p>
+          <ul>
+            <li>Stir gently by hand</li>
+            <li>Bake until golden</li>
+            <li>Cool before serving</li>
+          </ul>
           <Link href="/recipes/cowboy-butter-chicken-shells/card?variant=cozy" className="button secondary">
             Open Cozy Card
           </Link>
@@ -40,6 +50,11 @@ export default function HomePage() {
         <article className="recipe-card recipe-card-pro">
           <h2>Pro</h2>
           <p>Sharper visual contrast while staying in the dusty rose palette.</p>
+          <ul>
+            <li>Prep: 15 min</li>
+            <li>Cook: 25 min</li>
+            <li>Serves: 4</li>
+          </ul>
           <Link href="/recipes/cowboy-butter-chicken-shells/card?variant=pro" className="button secondary">
             Open Pro Card
           </Link>

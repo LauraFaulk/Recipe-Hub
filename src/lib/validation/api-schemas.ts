@@ -1,4 +1,5 @@
 import { safeValidateRecipe } from './recipe-schema.ts';
+import type { ApiError, IngestRequest, IngestResponse, RecipeByIdResponse, RecipeUpdateRequest, UploadResponse } from '../../types/api.ts';
 
 type Parseable<T> = {
   parse(input: unknown): T;

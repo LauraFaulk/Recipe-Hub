@@ -56,6 +56,29 @@ npm run build
 
 Then do a manual smoke pass through `/upload`, `/recipes/<id>/card`, `/recipes/<id>/export`, and `/telemetry`.
 
+## GitHub Pages deployment
+
+This repository is configured to publish a static Next.js export to GitHub Pages from the `main` branch via Actions.
+
+- Config file: `next.config.ts` (uses `output: 'export'` and applies `/Recipe-Hub` base path in Actions).
+- Workflow: `.github/workflows/deploy-pages.yml`.
+- Published artifact directory: `out/`.
+
+For local parity checks before pushing:
+
+```bash
+npm test
+npm run build
+```
+
+### If the live site still looks stale
+
+1. Confirm Pages is configured to use **GitHub Actions** as the build/deploy source.
+2. Confirm your latest commit landed on the `main` branch (the workflow triggers on `main` pushes).
+3. Open the latest run of `.github/workflows/deploy-pages.yml` and verify `build` and `deploy` both passed.
+4. Hard-refresh the browser (or use an incognito window) to avoid cached CSS/JS assets.
+5. Verify the live URL is the repo Pages path: `https://<user>.github.io/Recipe-Hub/`.
+
 
 ## Local data persistence
 
